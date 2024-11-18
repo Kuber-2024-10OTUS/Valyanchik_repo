@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment-1
+  namespace: homework ## Создаем в указанном namespace
+spec:
+  replicas: 3 ## 3 экземпляра пода
+  selector:
+    matchLabels:
+      homework: "true"
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1 ## Максимум 1 под будет недоступен
+  template:
+    metadata:
+      labels:
+        homework: "true"
+    spec:
+      initContainers:
+      - name: install
+        image: busybox:1.28
+        command:
+        - wget
+        - "-O"
+        - "/init/index.html"
+        - http://info.cern.ch
+        volumeMounts:
+        - name: workdir
+          mountPath: /init      
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 8000
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - sh
+                - -c
+                - echo "Clear container workdir">/proc/1/fd/1 && rm /homework/* 
+        readinessProbe: ## Проба готовности контейнера
+          exec:
+            command:
+            - cat
+            - /homework/index.html
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        volumeMounts:
+        - name: workdir
+          mountPath: /homework
+      dnsPolicy: Default
+      affinity:  ## Мапим поды деплоймента только на ноды с label=homework=true
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: homework
+                operator: In
+                values:
+                - "true"
+      volumes:
+      - name: workdir
+        emptyDir: {}
