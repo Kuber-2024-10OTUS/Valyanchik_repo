@@ -54,7 +54,7 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "1000m"
-        readinessProbe: ## Сменил проба готовности контейнера на httpGet
+        readinessProbe: ## Сменил пробу готовности контейнера на httpGet
           httpGet:
             path: /index.html
             port: 80
@@ -63,8 +63,10 @@ spec:
         volumeMounts:
         - name: workdir
           mountPath: /homework
-        - name: configfile
+        - name: configfile  ##Монтируем м основной под конфигмапу с файликом
           mountPath: /homework/conf
+        - name: nginx-config ##Заменяем стандартный файлик nginx из образа скачанным в инит-контейнере
+          mountPath: /etc/nginx/conf.d
       dnsPolicy: Default
       affinity:  ## Мапим поды деплоймента только на ноды с label=homework=true
         nodeAffinity:
@@ -77,8 +79,11 @@ spec:
                 - "true"
       volumes:
       - name: workdir
-        persistentVolumeClaim:  ## 
+        persistentVolumeClaim:  ## PVC на PV
           claimName: test-pvc
       - name: configfile
-        configMap:  ##
+        configMap:  ##  Волюм с конфигмапой с файликом
           name: test-cm-1
+      - name: nginx-config
+        configMap: ##  Волюм с конфигом nginx для замены стандартного
+          name: nginx-cm

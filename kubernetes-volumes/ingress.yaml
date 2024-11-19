@@ -4,7 +4,7 @@ metadata:
   name: test-ingress-2
   namespace: homework
   annotations:   
-    nginx.ingress.kubernetes.io/rewrite-target: /$2  ## rewrite правило для переадресации всех http обращений к ингресу на /index.html
+    nginx.ingress.kubernetes.io/rewrite-target: /$2  ## rewrite правило для переадресации на /index.html
 spec:
   ingressClassName: nginx
   rules:
