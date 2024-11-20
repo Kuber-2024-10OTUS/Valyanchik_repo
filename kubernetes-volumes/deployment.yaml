@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment-2
+  namespace: homework ## Создаем в указанном namespace
+spec:
+  replicas: 3 ## 3 экземпляра пода
+  selector:
+    matchLabels:
+      homework: "true"
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1 ## Максимум 1 под будет недоступен
+  template:
+    metadata:
+      labels:
+        homework: "true"
+    spec:
+      initContainers:
+      - name: install
+        image: busybox:1.28
+        command:
+        - wget
+        - "-O"
+        - "/init/index.html"
+        - http://info.cern.ch
+        volumeMounts:
+        - name: workdir
+          mountPath: /init
+        resources: ## Добавил явно заданные реквесты\лимиты, чтоб vscode  с расширением кубера не ругался, ибо бест практис
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"     
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - sh
+                - -c
+                - echo "Clear container workdir">/proc/1/fd/1 && rm /homework/*
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        readinessProbe: ## Сменил пробу готовности контейнера на httpGet
+          httpGet:
+            path: /index.html
+            port: 80
+          failureThreshold: 1
+          periodSeconds: 10
+        volumeMounts:
+        - name: workdir
+          mountPath: /homework
+        - name: configfile  ##Монтируем м основной под конфигмапу с файликом
+          mountPath: /homework/conf
+        - name: nginx-config ##Заменяем стандартный файлик nginx из образа скачанным в инит-контейнере
+          mountPath: /etc/nginx/conf.d
+      dnsPolicy: Default
+      affinity:  ## Мапим поды деплоймента только на ноды с label=homework=true
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: homework
+                operator: In
+                values:
+                - "true"
+      volumes:
+      - name: workdir
+        persistentVolumeClaim:  ## PVC на PV
+          claimName: test-pvc
+      - name: configfile
+        configMap:  ##  Волюм с конфигмапой с файликом
+          name: test-cm-1
+      - name: nginx-config
+        configMap: ##  Волюм с конфигом nginx для замены стандартного
+          name: nginx-cm

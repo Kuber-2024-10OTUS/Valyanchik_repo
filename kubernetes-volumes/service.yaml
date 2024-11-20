@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service-2
+  namespace: homework
+  labels:
+    homework: "true"
+spec:
+  type: ClusterIP
+  selector:
+    homework: "true" ## Мапим сервис на поды в NS=homework с лейблом homework=true
+  ports:
+    - name: http
+      port: 80  ## Порт для обращений извне к группе обьектов за сервисом
+      targetPort: 80  ## Таргет порты в подах

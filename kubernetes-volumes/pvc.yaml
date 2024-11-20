@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+  namespace: homework
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 0.5Gi
+  storageClassName: "storage-class-test" # Empty string must be explicitly set otherwise default StorageClass will be set
+##  volumeName: test-pv

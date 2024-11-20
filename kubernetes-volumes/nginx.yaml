@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-cm
+  namespace: homework
+data:
+  default.conf: |
+    server {
+        server_name  localhost;
+        listen 80;
+        root /homework;
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
