@@ -397,7 +397,7 @@ Status:
 
 И переходим в адресной строке браузера по адресу http://homework.otus/metrics.html:
 
-![img_1.png](screenshots/img_1.png)  
+![metric_in_web.png](screenshots/metric_in_web.png)  
 
 Содержимое файла так же можно увидеть при обращении к ендпоинту целевых подов сервиса внутри кластера используя внутренний ip сервиса в кластере:  
 
