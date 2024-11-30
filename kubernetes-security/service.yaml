@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service-2
+  namespace: homework
+##clusterIP отказывается работать с настройками CNI по умолчанию в миникубе
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      nodePort: 30080
+  selector:
+    homework: 'true'
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
