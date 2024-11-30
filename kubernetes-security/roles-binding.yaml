@@ -1,0 +1,27 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: namespace-metrics
+subjects:
+- kind: ServiceAccount
+  name: homework-monitoring
+  namespace: homework
+roleRef:
+  kind: ClusterRole
+  name: metrics-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: namespace-admin
+  namespace: homework
+subjects:
+- kind: ServiceAccount
+  name: homework-admin
+  namespace: homework
+roleRef:
+  kind: Role
+  name: admins-role
+  apiGroup: rbac.authorization.k8s.io

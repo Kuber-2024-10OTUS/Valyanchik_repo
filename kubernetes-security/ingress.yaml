@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress-2
+  namespace: homework
+  annotations:   
+    nginx.ingress.kubernetes.io/rewrite-target: /index.html ## более подходящее rewrite правило, чем в ДЗ по сетям
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: homework.otus
+      http:
+        paths:
+          - path: /homepage
+            pathType: Prefix
+            backend:
+              service:
+                name: test-service-2
+                port:
+                  number: 80
+          - path: /index.html ## Корневой путь внутри подов, т.е то, что они отдают по умолчанию на 80 порту согласно спеке деплоймента
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: test-service-2
+                port:
+                  number: 80
+          - path: /conf/file
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: test-service-2
+                port:
+                  number: 80
+          - path: /metrics.html
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: test-service-2
+                port:
+                  number: 80
