@@ -1,0 +1,4 @@
+1. Get the application URL by running these commands:
+{{- if or .Release.IsInstall .Release.IsUpgrade }}
+echo "Visit http://homework.otus:30080/homepage to use your application"
+{{- end }}

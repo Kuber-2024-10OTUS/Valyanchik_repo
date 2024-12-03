@@ -1,0 +1,12 @@
+apiVersion: v2
+name: kubernetes-templating
+description: A Helm chart for homework6
+type: application
+version: 0.1.1
+appVersion: "1.16.0"
+
+#subcharts, т.е зависимости для основного чарта
+dependencies:
+- name: redis
+  version: 1.4.0
+  repository: https://charts.pascaliske.dev
