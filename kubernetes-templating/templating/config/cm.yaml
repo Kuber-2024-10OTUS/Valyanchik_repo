@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-cm-1
+  namespace: homework
+data:
+  file.html: |
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>KuberNginx</title>
+    </head>
+    <body>
+      <h2>Hello from one of kuber Nginx pod</h2>
+    </body>
+    </html>

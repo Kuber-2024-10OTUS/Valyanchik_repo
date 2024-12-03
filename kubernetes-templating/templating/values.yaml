@@ -1,0 +1,125 @@
+
+app:
+  namespace: homework
+  deploymentName: test-deployment-3
+  podAnnotations:
+    labels:
+      homework: "true" 
+  main:
+    name: nginx
+    replicaCount: 2
+    deploymentStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1 ## Максимум 1 под будет недоступен
+    image:
+      repository: nginx
+      tag: latest
+      pullPolicy: IfNotPresent  
+    targetPort: 80
+    probe:
+      isEnable: false
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "500m"
+      limits:
+        memory: "512Mi"
+        cpu: "1000m"       
+  init1:
+    name: install 
+    image:
+      repository: busybox
+      tag: "1.28"
+      pullPolicy: IfNotPresent
+    command: [ wget -O /init/index.html http://info.cern.ch ]
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
+  init2:
+    name: extract-metrics
+    image:
+      repository: curlimages/curl
+      tag: "latest"
+      pullPolicy: IfNotPresent
+    #sleep 60 выставлен, т.к при старте без sleep набор метрик пустой, полагаю, сервис метрик из аддона миникуба начинает их отадавать через какое то время
+    command: [ 'sh', '-c', 'sleep 60 && curl --cacert ${CA_CERT} --header "Authorization: Bearer $(cat ${TOKEN})" -X GET ${KUBEAPI}/apis/metrics.k8s.io/v1beta1/namespaces/"$(cat ${NAMESPACE})"/pods -o /init/metrics.html' ]
+    env:
+    - name: TOKEN
+      value: /var/run/secrets/kubernetes.io/serviceaccount/token        
+    - name: CA_CERT
+      value: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    - name: KUBEAPI
+      value: https://192.168.49.2:8443
+    - name: NAMESPACE
+      value: /var/run/secrets/kubernetes.io/serviceaccount/namespace
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
+  ## Мапим поды деплоймента только на ноды с label=homework=true
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: homework
+            operator: In
+            values:
+            - "true"
+  volumes:          
+  - name: workdir
+    persistentVolumeClaim:  ## PVC на PV
+      claimName: test-pvc
+  - name: configfile
+    configMap:  ##  Волюм с конфигмапой с файликом
+      name: test-cm-1
+  - name: nginx-config
+    configMap: ##  Волюм с конфигом nginx для замены стандартного
+      name: nginx-cm
+
+persistentVolumes:
+  targetPath: /home/docker/test_dir
+
+ingress:
+  paths:
+  - path: /homepage
+    pathType: Prefix
+    backend:
+      service:
+        name: test-service-2
+        port:
+          number: 80
+  - path: /index.html ## Корневой путь внутри подов, т.е то, что они отдают по умолчанию на 80 порту согласно спеке деплоймента
+    pathType: ImplementationSpecific
+    backend:
+      service:
+        name: test-service-2
+        port:
+          number: 80
+  - path: /conf/file
+    pathType: ImplementationSpecific
+    backend:
+      service:
+        name: test-service-2
+        port:
+          number: 80
+  - path: /metrics.html
+    pathType: ImplementationSpecific
+    backend:
+      service:
+        name: test-service-2
+        port:
+          number: 80    
+
+
+
+
+

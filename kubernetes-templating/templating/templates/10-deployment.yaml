@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{toYaml .Values.app.deploymentName}}
+  namespace: {{toYaml .Values.app.namespace}} ## Создаем в указанном namespace
+spec:
+  replicas: {{toYaml .Values.app.main.replicaCount}} ## конфигурируемое количество экземпляров подов
+  selector:
+    matchLabels:
+      {{- toYaml .Values.app.podAnnotations.labels | nindent 6}}
+  strategy:
+  {{- toYaml .Values.app.main.deploymentStrategy | nindent 4}}
+  template:
+    metadata:
+      labels:
+      {{- toYaml .Values.app.podAnnotations.labels| nindent 8}}
+    spec:
+      serviceAccount: homework-monitoring
+      containers:
+      - name: {{toYaml .Values.app.main.name}}
+        image: {{ .Values.app.main.image.repository }}:{{ .Values.app.main.image.tag }}
+        ports:
+        - containerPort: {{ .Values.app.main.targetPort }}
+        readinessProbe:
+        {{- if .Values.app.main.probe.isEnable }}
+          httpGet:
+            path: /homework/file.html
+            port: 80
+          failureThreshold: 1
+          periodSeconds: 10
+        {{- end }}
+        resources:
+        {{- toYaml .Values.app.main.resources | nindent 10}}
+        volumeMounts:
+        - name: workdir
+          mountPath: /homework
+        - name: configfile  ##Монтируем в основной под конфигмапу с файликом
+          mountPath: /homework/conf
+        - name: nginx-config ##Заменяем стандартный файлик nginx из образа скачанным в инит-контейнере
+          mountPath: /etc/nginx/conf.d
+      initContainers:
+      - name: {{toYaml .Values.app.init1.name}}
+        image: {{ .Values.app.init1.image.repository }}:{{ .Values.app.init1.image.tag }}
+        command: [ wget -O /init/index.html http://info.cern.ch ]
+        volumeMounts:
+        - name: workdir
+          mountPath: /init
+        resources:
+        {{- toYaml .Values.app.init1.resources | nindent 10}}
+      - name: {{toYaml .Values.app.init2.name}} #init контенйер для извлечения метрик
+        image: {{ .Values.app.init2.image.repository }}:{{ .Values.app.init2.image.tag }}
+        env:
+        {{- toYaml .Values.app.init2.env | nindent 8}} 
+        command: [ 'sh', '-c', 'sleep 60 && curl --cacert ${CA_CERT} --header "Authorization: Bearer $(cat ${TOKEN})" -X GET ${KUBEAPI}/apis/metrics.k8s.io/v1beta1/namespaces/"$(cat ${NAMESPACE})"/pods -o /init/metrics.html' ]
+        volumeMounts:
+          - name: workdir
+            mountPath: /init
+        resources:
+        {{- toYaml .Values.app.init1.resources | nindent 10}}
+      dnsPolicy: Default
+      affinity:  
+      {{- toYaml .Values.app.affinity | nindent 8}}
+      volumes:
+      {{- toYaml .Values.app.volumes | nindent 8}}

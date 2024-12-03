@@ -4,21 +4,40 @@ metadata:
   name: test-pod-1
   namespace: homework
 spec:
+  serviceAccount: homework-admin
   containers:
   - name: nginx
     image: nginx
+    env:
+      - name: TOKEN
+        value: /var/run/secrets/kubernetes.io/serviceaccount/token        
+      - name: CA_CERT
+        value: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      - name: KUBEAPI
+        value: https://192.168.49.2:8443
+      - name: NAMESPACE
+        value: /var/run/secrets/kubernetes.io/serviceaccount/namespace
+#    command: ['bash', '-c']
+#   args: ['sleep 60 && curl --cacert ${CA_CERT} --header "Authorization: Bearer $(cat ${TOKEN})" -X GET ${KUBEAPI}/apis/metrics.k8s.io/v1beta1/namespaces/"$(cat ${NAMESPACE})"/pods -o /init/metrics.html']
     ports:
     - containerPort: 8000
-    lifecycle:
-      preStop:
-        exec:
-          command:
-            - sh
-            - -c
-            - echo "Clear container workdir">/proc/1/fd/1 && rm /homework/* 
+#    lifecycle:
+#      preStop:
+#        exec:
+#          command:
+#            - sh
+#            - -c
+#            - echo "Clear container workdir">/proc/1/fd/1 && rm /homework/
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"   
     volumeMounts:
     - name: workdir
-      mountPath: /homework 
+      mountPath: /init
   initContainers:
   - name: install
     image: busybox:1.28
@@ -33,4 +52,6 @@ spec:
   dnsPolicy: Default
   volumes:
   - name: workdir
-    emptyDir: {}
+    persistentVolumeClaim:  ## PVC на PV
+      claimName: test-pvc
+

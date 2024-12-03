@@ -1,0 +1,390 @@
+Release "homework6" does not exist. Installing it now.
+NAME: homework6
+LAST DEPLOYED: Tue Dec  3 16:15:03 2024
+NAMESPACE: homework
+STATUS: pending-install
+REVISION: 1
+TEST SUITE: None
+HOOKS:
+MANIFEST:
+---
+# Source: kubernetes-templating/templates/40-sa_roles_bindings.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: homework-admin
+  namespace: homework
+---
+# Source: kubernetes-templating/templates/40-sa_roles_bindings.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: homework-monitoring
+  namespace: homework
+---
+# Source: kubernetes-templating/templates/20-volumes.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pv
+spec:
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "storage-class-test"
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: /home/docker/test_dir
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - minikube
+---
+# Source: kubernetes-templating/templates/20-volumes.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+  namespace: homework
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 0.5Gi
+  storageClassName: "storage-class-test"
+---
+# Source: kubernetes-templating/templates/40-sa_roles_bindings.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: metrics-role
+rules:
+- apiGroups: ["metrics.k8s.io"]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+# Source: kubernetes-templating/templates/40-sa_roles_bindings.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: namespace-metrics
+subjects:
+- kind: ServiceAccount
+  name: homework-monitoring
+  namespace: homework
+roleRef:
+  kind: ClusterRole
+  name: metrics-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: kubernetes-templating/templates/40-sa_roles_bindings.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: homework
+  name: admins-role
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+# Source: kubernetes-templating/templates/40-sa_roles_bindings.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: namespace-admin
+  namespace: homework
+subjects:
+- kind: ServiceAccount
+  name: homework-admin
+  namespace: homework
+roleRef:
+  kind: Role
+  name: admins-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: kubernetes-templating/charts/redis/templates/headless-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: homework6-redis-headless
+  labels:
+    helm.sh/chart: redis-1.4.0
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: homework6
+    app.kubernetes.io/version: "7.2.5"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  clusterIP: None
+  ports:
+    - name: "redis"
+      port: 6379
+      targetPort: "redis"
+      protocol: "TCP"
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: homework6
+---
+# Source: kubernetes-templating/charts/redis/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: homework6-redis
+  labels:
+    helm.sh/chart: redis-1.4.0
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: homework6
+    app.kubernetes.io/version: "7.2.5"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - name: "redis"
+      port: 6379
+      targetPort: "redis"
+      protocol: "TCP"
+      appProtocol: "redis"
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: homework6
+---
+# Source: kubernetes-templating/templates/30-service_ingress.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service-2
+  namespace: homework
+##clusterIP отказывается работать с настройками CNI по умолчанию в миникубе
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      nodePort: 30080
+  selector:
+    homework: 'true'
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
+---
+# Source: kubernetes-templating/templates/10-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment-3
+  namespace: homework ## Создаем в указанном namespace
+spec:
+  replicas: 2 ## конфигурируемое количество экземпляров подов
+  selector:
+    matchLabels:
+      homework: "true"
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        homework: "true"
+    spec:
+      serviceAccount: homework-monitoring
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        readinessProbe:
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 500m
+            memory: 256Mi
+        volumeMounts:
+        - name: workdir
+          mountPath: /homework
+        - name: configfile  ##Монтируем в основной под конфигмапу с файликом
+          mountPath: /homework/conf
+        - name: nginx-config ##Заменяем стандартный файлик nginx из образа скачанным в инит-контейнере
+          mountPath: /etc/nginx/conf.d
+      initContainers:
+      - name: install
+        image: busybox:1.28
+        command: [ wget -O /init/index.html http://info.cern.ch ]
+        volumeMounts:
+        - name: workdir
+          mountPath: /init
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+      - name: extract-metrics #init контенйер для извлечения метрик
+        image: curlimages/curl:latest
+        env:
+        - name: TOKEN
+          value: /var/run/secrets/kubernetes.io/serviceaccount/token
+        - name: CA_CERT
+          value: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        - name: KUBEAPI
+          value: https://192.168.49.2:8443
+        - name: NAMESPACE
+          value: /var/run/secrets/kubernetes.io/serviceaccount/namespace 
+        command: [ 'sh', '-c', 'sleep 60 && curl --cacert ${CA_CERT} --header "Authorization: Bearer $(cat ${TOKEN})" -X GET ${KUBEAPI}/apis/metrics.k8s.io/v1beta1/namespaces/"$(cat ${NAMESPACE})"/pods -o /init/metrics.html' ]
+        volumeMounts:
+          - name: workdir
+            mountPath: /init
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+      dnsPolicy: Default
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: homework
+                operator: In
+                values:
+                - "true"
+      volumes:
+        - name: workdir
+          persistentVolumeClaim:
+            claimName: test-pvc
+        - configMap:
+            name: test-cm-1
+          name: configfile
+        - configMap:
+            name: nginx-cm
+          name: nginx-config
+---
+# Source: kubernetes-templating/charts/redis/templates/controller.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: homework6-redis
+  labels:
+    helm.sh/chart: redis-1.4.0
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: homework6
+    app.kubernetes.io/version: "7.2.5"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  serviceName: homework6-redis-headless
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/instance: homework6
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        app.kubernetes.io/instance: homework6
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: redis
+          image: "redis:7.2.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: "redis"
+              containerPort: 6379
+              protocol: "TCP"
+          env:
+            - name: "TZ"
+              value: "UTC"
+          args:
+            - 'redis-server'
+            - '--save 60 1'
+            - '--loglevel warning'
+          volumeMounts:
+            - name: homework6-redis-storage
+              mountPath: /data
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+          resources: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: homework6-redis-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        volumeMode: Filesystem
+---
+# Source: kubernetes-templating/templates/30-service_ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress-2
+  namespace: homework
+  annotations:   
+    nginx.ingress.kubernetes.io/rewrite-target: /index.html ## более подходящее rewrite правило, чем в ДЗ по сетям
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: homework.otus
+      http:
+        paths:
+        - backend:
+            service:
+              name: test-service-2
+              port:
+                number: 80
+          path: /homepage
+          pathType: Prefix
+        - backend:
+            service:
+              name: test-service-2
+              port:
+                number: 80
+          path: /index.html
+          pathType: ImplementationSpecific
+        - backend:
+            service:
+              name: test-service-2
+              port:
+                number: 80
+          path: /conf/file
+          pathType: ImplementationSpecific
+        - backend:
+            service:
+              name: test-service-2
+              port:
+                number: 80
+          path: /metrics.html
+          pathType: ImplementationSpecific
+
+NOTES:
+1. Get the application URL by running these commands:
+echo "Visit http://homework.otus:30080/homepage to use your application"
