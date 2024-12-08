@@ -1,5 +1,5 @@
 Питонячий код предложенного в ДЗ оператора:  
-![/files/mysql-operator.py](mysql-operator.py)
+![mysql-operator.py](mysql-operator.py)
 
 Применяем манифесты обьектов:  
 <details>
