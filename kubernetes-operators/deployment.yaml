@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-operator
+  namespace: homework
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      #этот лейбл "app: {{ name }}"" прописан для всех обьектов из ./templates 
+      app: "mysql-cr"
+  template:
+    metadata:
+      labels:
+        app: "mysql-cr"
+    spec:
+      serviceAccountName: dba
+      containers:
+      - name: mysql-operator
+        image: roflmaoinmysoul/mysql-operator:1.0.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"

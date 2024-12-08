@@ -1,0 +1,176 @@
+root@mysql-operator-f84665fdc-vs5k9:/templates# cat *
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: default
+  name: backup-{{ name }}-job
+  labels:
+    usage: backup-{{ name }}-job
+spec:
+  template:
+    metadata:
+      name: backup-{{ name }}-cronjob
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: backup-{{ name }}
+        image: {{ image }}
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/sh
+        - -c
+        - "mysqldump -uroot -h {{ name }} -p{{ password }} --port 3306 {{ database }}  > /backup-{{ name }}-pv/{{ name }}-dump.sql"
+        volumeMounts:
+        - name: backup-data
+          mountPath: /backup-{{ name }}-pv
+      volumes:
+      - name: backup-data
+        persistentVolumeClaim:
+          claimName: backup-{{ name }}-pvc
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: backup-{{ name }}-pv
+  labels:
+    pv-usage: backup-{{ name }}
+spec:
+  storageClassName: standard
+  persistentVolumeReclaimPolicy: Retain
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /tmp/hostpath_pv/{{ name }}-pv-backup/
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-{{ name }}-pvc
+spec:
+  volumeName: backup-{{ name }}-pv
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "1Gi"
+  selector:
+    matchLabels:
+      pv-usage: backup-{{ name }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ name }}
+  template:
+    metadata:
+      labels:
+        app: {{ name }}
+    spec:
+      containers:
+      - image: {{ image }}
+        name: {{ name }}
+        env:
+        - name: MYSQL_ROOT_PASSWORD # так делать не нужно, тут лучше secret
+          value: {{ password }}
+        - name: MYSQL_DATABASE
+          value: {{ database }}
+        ports:
+        - containerPort: 3306
+          name: mysql
+        readinessProbe:
+          exec:
+            command: ["mysql", "-uroot", "-p{{ password }}", "-h", "127.0.0.1", "-e", "SELECT 1"]
+          failureThreshold: 12
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ name }}-pvc
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ name }}-pv
+  labels:
+    pv-usage: {{ name }}
+spec:
+  storageClassName: standard
+  persistentVolumeReclaimPolicy: Retain
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: {{ storage_size }}
+  hostPath:
+    path: /tmp/hostpath_pv/{{ name }}-pv/
+---    
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ name }}-pvc
+spec:
+  volumeName: {{ name }}-pv
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: {{ storage_size }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ name }}
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: {{ name }}
+  clusterIP: None
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: default
+  name: restore-{{ name }}-job
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      name: restore-{{ name }}-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: backup
+        image: mysql:5.7
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/sh
+        - -c
+        args:
+        - |
+          sleep 5;
+          if [[ -f /backup-{{ name }}-pv/{{ name }}-dump.sql ]]; then 
+              echo 'Restoring from backup...';
+              ls -l /backup-{{ name }}-pv/;
+              mysql -uroot -h {{ name }} -p{{ password }} {{ database }}< /backup-{{ name }}-pv/{{ name }}-dump.sql
+          else
+              echo 'No backup found'
+          fi
+        volumeMounts:
+        - name: backup-data
+          mountPath: /backup-{{ name }}-pv
+      volumes:
+      - name: backup-data
+        persistentVolumeClaim:
+          claimName: backup-{{ name }}-pvc
