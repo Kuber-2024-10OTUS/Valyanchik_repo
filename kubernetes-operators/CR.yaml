@@ -1,0 +1,12 @@
+apiVersion: otus.homework/v1
+kind: MySQL
+metadata:
+  name: mysql-cr
+  ##для предложенного оператора в ДЗ надо устанавливать default, иначе не заработает, либо менять имена  в скрипте оператора
+  namespace: default
+  finalizers: []
+spec:
+  image: "mysql:8.4.3"
+  database: "test_db1"
+  password: "qwer1235"
+  storage_size: "2Gi"
