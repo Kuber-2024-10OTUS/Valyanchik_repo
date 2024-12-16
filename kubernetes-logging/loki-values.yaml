@@ -1,0 +1,116 @@
+nodeSelector:
+  node-role: "infra"
+tolerations:
+- key: "node-role"        
+  operator: "Equal"
+  value: "infra"        
+  effect: "NoSchedule"
+
+loki:
+  nodeSelector:
+    node-role: "infra"
+  tolerations:
+  - key: "node-role"        
+    operator: "Equal"
+    value: "infra"        
+    effect: "NoSchedule"
+  commonConfig:
+    replication_factor: 1
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+  storage:
+    bucketNames:
+      chunks: otus-bucket-1
+      ruler: otus-bucket-1
+      admin: log
+    type: 's3'
+    s3:
+      endpoint: storage.yandexcloud.net
+      secretAccessKey: ##yc iam access-key create --service-account-name <service-account-name> (key_secret)
+      accessKeyId: ##yc iam access-key create --service-account-name <service-account-name> (key_id)
+  auth_enabled: false
+
+      
+deploymentMode: SingleBinary
+
+singleBinary:
+  replicas: 1
+  nodeSelector:
+    node-role: "infra"
+  tolerations:
+    - key: "node-role"        
+      operator: "Equal"
+      value: "infra"        
+      effect: "NoSchedule"
+
+monitoring:
+  selfMonitoring:
+    enabled: false
+  lokiCanary:
+    nodeSelector:
+      node-role: "infra"
+    tolerations:
+      - key: "node-role"        
+        operator: "Equal"
+        value: "infra"        
+        effect: "NoSchedule"
+
+gateway:
+  nodeSelector:
+    node-role: "infra"
+  tolerations:
+    - key: "node-role"        
+      operator: "Equal"
+      value: "infra"        
+      effect: "NoSchedule"
+
+loki-results-cache:
+  nodeSelector:
+    node-role: "infra"
+  tolerations:
+    - key: "node-role"        
+      operator: "Equal"
+      value: "infra"        
+      effect: "NoSchedule"
+
+loki-chunks-cache:
+  nodeSelector:
+    node-role: "infra"
+  tolerations:
+    - key: "node-role"        
+      operator: "Equal"
+      value: "infra"        
+      effect: "NoSchedule"
+
+
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+compactor:
+  replicas: 0
+indexGateway:
+  replicas: 0
+bloomCompactor:
+  replicas: 0
+bloomGateway:
+  replicas: 0

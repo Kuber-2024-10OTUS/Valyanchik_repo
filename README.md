@@ -7,4 +7,5 @@
 5. [Настройка сервисных аккаунтов и ограничение прав для них](./kubernetes-security/README.md)
 6. [Шаблонизация манифестов приложения, использование Helm. Установка community Helm charts](./kubernetes-templating/README.md)  
 7. [Custom Resource Definitions. Operators](./kubernetes-operators/README.md) 
-8. [Мониторинг приложения в кластере](./kubernetes-monitoring/README.md)         
+8. [Мониторинг приложения в кластере](./kubernetes-monitoring/README.md)  
+9. [Сервисы централизованного логирования для Kubernetes](./kubernetes-logging/README.md)        
