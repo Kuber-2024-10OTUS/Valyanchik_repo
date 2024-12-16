@@ -106,6 +106,7 @@ cl1jdc9nsmd3g56odcnp-ubyg   [map[effect:NoSchedule key:node-role value:infra]]
 <details>
 
 ```bash
+
 valyan@valyan-pc:~/proj/Valyanchik_repo/kubernetes-logging$ helm upgrade --values loki-values.yaml --install -n monitoring  loki grafana/loki
 Release "loki" does not exist. Installing it now.
 NAME: loki
@@ -154,16 +155,16 @@ You can test to send data from outside the cluster by port-forwarding the gatewa
 
 And then using http://127.0.0.1:3100/loki/api/v1/push URL as shown below:
 
-```
+
 curl -H "Content-Type: application/json" -XPOST -s "http://127.0.0.1:3100/loki/api/v1/push"  \
 --data-raw "{\"streams\": [{\"stream\": {\"job\": \"test\"}, \"values\": [[\"$(date +%s)000000000\", \"fizzbuzz\"]]}]}"
-```
+
 
 Then verify that Loki did received the data using the following command:
 
-```
+
 curl "http://127.0.0.1:3100/loki/api/v1/query_range" --data-urlencode 'query={job="test"}' | jq .data.result
-```
+
 
 ***********************************************************************
 Connecting Grafana to Loki
