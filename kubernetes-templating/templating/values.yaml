@@ -1,6 +1,6 @@
 
 app:
-  namespace: homework
+  namespace: homeworkhelm
   deploymentName: test-deployment-3
   podAnnotations:
     labels:
