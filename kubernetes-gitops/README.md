@@ -869,7 +869,7 @@ statefulset.apps/kubernetes-templating-redis   1/1     78s
 
 replicaset из homeworkhelm не поднимается из-за того, что в манифесте pv указана гвоздями прибитая нода миникуба из предыдущих дз, что видно в дескрайбе обьекта и в ивентах репликасета:  
 
-![kubernetes-templating-app-pv-describe.png](screenshots/akubernetes-templating-app-pv-describe.png) 
+![kubernetes-templating-app-pv-describe.png](screenshots/kubernetes-templating-app-pv-describe.png) 
 
 ![kubernetes-templating-app-replicaset-event.png](screenshots/kubernetes-templating-app-replicaset-event.png) 
 
