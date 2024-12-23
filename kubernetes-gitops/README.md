@@ -39,9 +39,9 @@ Terraform will perform the following actions:
       + name                     = "otus-k8s-zonal"
       + network_id               = (known after apply)
       + node_ipv4_cidr_mask_size = 24
-      + node_service_account_id  = "ajecq8rdki93bp5u5pcl"
+      + node_service_account_id  = "************"
       + release_channel          = (known after apply)
-      + service_account_id       = "ajecq8rdki93bp5u5pcl"
+      + service_account_id       = "***********"
       + service_ipv4_range       = "172.18.0.0/16"
       + service_ipv6_range       = (known after apply)
       + status                   = (known after apply)
@@ -251,41 +251,41 @@ Terraform will perform the following actions:
 
   # yandex_resourcemanager_folder_iam_member.encrypterDecrypter will be created
   + resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
-      + folder_id = "b1g39d4t5jfhboe9if7f"
+      + folder_id = "************"
       + id        = (known after apply)
-      + member    = "serviceAccount:ajecq8rdki93bp5u5pcl"
+      + member    = "serviceAccount:************"
       + role      = "kms.keys.encrypterDecrypter"
     }
 
   # yandex_resourcemanager_folder_iam_member.images-puller will be created
   + resource "yandex_resourcemanager_folder_iam_member" "images-puller" {
-      + folder_id = "b1g39d4t5jfhboe9if7f"
+      + folder_id = "************"
       + id        = (known after apply)
-      + member    = "serviceAccount:ajecq8rdki93bp5u5pcl"
+      + member    = "serviceAccount:************"
       + role      = "container-registry.images.puller"
     }
 
   # yandex_resourcemanager_folder_iam_member.k8s-clusters-agent will be created
   + resource "yandex_resourcemanager_folder_iam_member" "k8s-clusters-agent" {
-      + folder_id = "b1g39d4t5jfhboe9if7f"
+      + folder_id = "***********"
       + id        = (known after apply)
-      + member    = "serviceAccount:ajecq8rdki93bp5u5pcl"
+      + member    = "serviceAccount:***********"
       + role      = "k8s.clusters.agent"
     }
 
   # yandex_resourcemanager_folder_iam_member.storageAdmin will be created
   + resource "yandex_resourcemanager_folder_iam_member" "storageAdmin" {
-      + folder_id = "b1g39d4t5jfhboe9if7f"
+      + folder_id = "***********"
       + id        = (known after apply)
-      + member    = "serviceAccount:ajecq8rdki93bp5u5pcl"
+      + member    = "serviceAccount:***********"
       + role      = "storage.admin"
     }
 
   # yandex_resourcemanager_folder_iam_member.vpc-public-admin will be created
   + resource "yandex_resourcemanager_folder_iam_member" "vpc-public-admin" {
-      + folder_id = "b1g39d4t5jfhboe9if7f"
+      + folder_id = "***********"
       + id        = (known after apply)
-      + member    = "serviceAccount:ajecq8rdki93bp5u5pcl"
+      + member    = "serviceAccount:***********"
       + role      = "vpc.publicAdmin"
     }
 
@@ -479,21 +479,21 @@ yandex_resourcemanager_folder_iam_member.vpc-public-admin: Creating...
 yandex_vpc_network.otus-network-1: Creating...
 yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Creating...
 yandex_kms_symmetric_key.kms-key: Creating...
-yandex_kms_symmetric_key.kms-key: Creation complete after 0s [id=abjk000vaavrul0k3583]
-yandex_vpc_network.otus-network-1: Creation complete after 1s [id=enpqqnmlk8vt0oin88dt]
+yandex_kms_symmetric_key.kms-key: Creation complete after 0s [id=***********]
+yandex_vpc_network.otus-network-1: Creation complete after 1s [id=***********]
 yandex_vpc_subnet.otus-subnet-1: Creating...
 yandex_vpc_security_group.k8s-public-services: Creating...
-yandex_vpc_subnet.otus-subnet-1: Creation complete after 1s [id=e9bflqmd0kaokehjuqsg]
+yandex_vpc_subnet.otus-subnet-1: Creation complete after 1s [id=***********]
 yandex_vpc_security_group.k8s-cluster-traffic: Creating...
 yandex_vpc_security_group.k8s-public-services: Creation complete after 1s [id=enpjojhdhikaao3jnf1q]
-yandex_resourcemanager_folder_iam_member.storageAdmin: Creation complete after 2s [id=b1g39d4t5jfhboe9if7f/storage.admin/serviceAccount:ajecq8rdki93bp5u5pcl]
+yandex_resourcemanager_folder_iam_member.storageAdmin: Creation complete after 2s [id=***********/storage.admin/serviceAccount:***********]
 yandex_vpc_security_group.k8s-cluster-traffic: Creation complete after 1s [id=enplt15ukh31rioksmt6]
-yandex_resourcemanager_folder_iam_member.images-puller: Creation complete after 5s [id=b1g39d4t5jfhboe9if7f/container-registry.images.puller/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Creation complete after 7s [id=b1g39d4t5jfhboe9if7f/kms.keys.encrypterDecrypter/serviceAccount:ajecq8rdki93bp5u5pcl]
+yandex_resourcemanager_folder_iam_member.images-puller: Creation complete after 5s [id=***********/container-registry.images.puller/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Creation complete after 7s [id=***********/kms.keys.encrypterDecrypter/serviceAccount:***********]
 yandex_resourcemanager_folder_iam_member.vpc-public-admin: Still creating... [10s elapsed]
 yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Still creating... [10s elapsed]
-yandex_resourcemanager_folder_iam_member.vpc-public-admin: Creation complete after 10s [id=b1g39d4t5jfhboe9if7f/vpc.publicAdmin/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Creation complete after 12s [id=b1g39d4t5jfhboe9if7f/k8s.clusters.agent/serviceAccount:ajecq8rdki93bp5u5pcl]
+yandex_resourcemanager_folder_iam_member.vpc-public-admin: Creation complete after 10s [id=***********/vpc.publicAdmin/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Creation complete after 12s [id=***********/k8s.clusters.agent/serviceAccount:***********]
 yandex_kubernetes_cluster.otus-k8s-zonal: Creating...
 yandex_kubernetes_cluster.otus-k8s-zonal: Still creating... [10s elapsed]
 yandex_kubernetes_cluster.otus-k8s-zonal: Still creating... [20s elapsed]
@@ -566,14 +566,14 @@ yandex_kubernetes_node_group.otus-infra-ng: Creation complete after 1m38s [id=ca
 │ 
 ╵
 valyan@valyan-pc:~/proj/Valyanchik_repo/kubernetes-gitops/terraform$ terraform apply -auto-approve
-yandex_resourcemanager_folder_iam_member.images-puller: Refreshing state... [id=b1g39d4t5jfhboe9if7f/container-registry.images.puller/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_kms_symmetric_key.kms-key: Refreshing state... [id=abjk000vaavrul0k3583]
-yandex_resourcemanager_folder_iam_member.vpc-public-admin: Refreshing state... [id=b1g39d4t5jfhboe9if7f/vpc.publicAdmin/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Refreshing state... [id=b1g39d4t5jfhboe9if7f/k8s.clusters.agent/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Refreshing state... [id=b1g39d4t5jfhboe9if7f/kms.keys.encrypterDecrypter/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.storageAdmin: Refreshing state... [id=b1g39d4t5jfhboe9if7f/storage.admin/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_vpc_network.otus-network-1: Refreshing state... [id=enpqqnmlk8vt0oin88dt]
-yandex_vpc_subnet.otus-subnet-1: Refreshing state... [id=e9bflqmd0kaokehjuqsg]
+yandex_resourcemanager_folder_iam_member.images-puller: Refreshing state... [id=***********/container-registry.images.puller/serviceAccount:***********]
+yandex_kms_symmetric_key.kms-key: Refreshing state... [id=***********]
+yandex_resourcemanager_folder_iam_member.vpc-public-admin: Refreshing state... [id=***********/vpc.publicAdmin/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Refreshing state... [id=***********/k8s.clusters.agent/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Refreshing state... [id=***********/kms.keys.encrypterDecrypter/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.storageAdmin: Refreshing state... [id=***********/storage.admin/serviceAccount:***********]
+yandex_vpc_network.otus-network-1: Refreshing state... [id=***********]
+yandex_vpc_subnet.otus-subnet-1: Refreshing state... [id=***********]
 yandex_vpc_security_group.k8s-public-services: Refreshing state... [id=enpjojhdhikaao3jnf1q]
 yandex_vpc_security_group.k8s-cluster-traffic: Refreshing state... [id=enplt15ukh31rioksmt6]
 yandex_kubernetes_cluster.otus-k8s-zonal: Refreshing state... [id=catc3stlo11pk093as5k]
@@ -639,7 +639,7 @@ Terraform will perform the following actions:
                   + "enpjojhdhikaao3jnf1q",
                 ]
               + subnet_ids         = [
-                  + "e9bflqmd0kaokehjuqsg",
+                  + "***********",
                 ]
             }
 
@@ -892,14 +892,14 @@ No resources found in homeworkhelm namespace.
 
 ```bash
 valyan@valyan-pc:~/proj/Valyanchik_repo/kubernetes-gitops/terraform$ terraform destroy -auto-approve
-yandex_resourcemanager_folder_iam_member.images-puller: Refreshing state... [id=b1g39d4t5jfhboe9if7f/container-registry.images.puller/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Refreshing state... [id=b1g39d4t5jfhboe9if7f/k8s.clusters.agent/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.vpc-public-admin: Refreshing state... [id=b1g39d4t5jfhboe9if7f/vpc.publicAdmin/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Refreshing state... [id=b1g39d4t5jfhboe9if7f/kms.keys.encrypterDecrypter/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_vpc_network.otus-network-1: Refreshing state... [id=enpqqnmlk8vt0oin88dt]
-yandex_resourcemanager_folder_iam_member.storageAdmin: Refreshing state... [id=b1g39d4t5jfhboe9if7f/storage.admin/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_kms_symmetric_key.kms-key: Refreshing state... [id=abjk000vaavrul0k3583]
-yandex_vpc_subnet.otus-subnet-1: Refreshing state... [id=e9bflqmd0kaokehjuqsg]
+yandex_resourcemanager_folder_iam_member.images-puller: Refreshing state... [id=***********/container-registry.images.puller/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Refreshing state... [id=***********/k8s.clusters.agent/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.vpc-public-admin: Refreshing state... [id=***********/vpc.publicAdmin/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Refreshing state... [id=***********/kms.keys.encrypterDecrypter/serviceAccount:***********]
+yandex_vpc_network.otus-network-1: Refreshing state... [id=***********]
+yandex_resourcemanager_folder_iam_member.storageAdmin: Refreshing state... [id=***********/storage.admin/serviceAccount:***********]
+yandex_kms_symmetric_key.kms-key: Refreshing state... [id=***********]
+yandex_vpc_subnet.otus-subnet-1: Refreshing state... [id=***********]
 yandex_vpc_security_group.k8s-public-services: Refreshing state... [id=enpjojhdhikaao3jnf1q]
 yandex_vpc_security_group.k8s-cluster-traffic: Refreshing state... [id=enplt15ukh31rioksmt6]
 yandex_kubernetes_cluster.otus-k8s-zonal: Refreshing state... [id=catc3stlo11pk093as5k]
@@ -916,8 +916,8 @@ Terraform will perform the following actions:
       - created_at          = "2024-12-23T16:33:37Z" -> null
       - default_algorithm   = "AES_128" -> null
       - deletion_protection = false -> null
-      - folder_id           = "b1g39d4t5jfhboe9if7f" -> null
-      - id                  = "abjk000vaavrul0k3583" -> null
+      - folder_id           = "***********" -> null
+      - id                  = "***********" -> null
       - labels              = {} -> null
       - name                = "kms-key" -> null
       - rotation_period     = "8760h0m0s" -> null
@@ -929,43 +929,28 @@ Terraform will perform the following actions:
   - resource "yandex_kubernetes_cluster" "otus-k8s-zonal" {
       - cluster_ipv4_range       = "172.17.0.0/16" -> null
       - created_at               = "2024-12-23T16:33:50Z" -> null
-      - folder_id                = "b1g39d4t5jfhboe9if7f" -> null
+      - folder_id                = "***********" -> null
       - health                   = "healthy" -> null
       - id                       = "catc3stlo11pk093as5k" -> null
       - labels                   = {} -> null
       - name                     = "otus-k8s-zonal" -> null
-      - network_id               = "enpqqnmlk8vt0oin88dt" -> null
+      - network_id               = "***********" -> null
       - node_ipv4_cidr_mask_size = 24 -> null
-      - node_service_account_id  = "ajecq8rdki93bp5u5pcl" -> null
+      - node_service_account_id  = "***********" -> null
       - release_channel          = "REGULAR" -> null
-      - service_account_id       = "ajecq8rdki93bp5u5pcl" -> null
+      - service_account_id       = "***********" -> null
       - service_ipv4_range       = "172.18.0.0/16" -> null
       - status                   = "running" -> null
         # (4 unchanged attributes hidden)
 
       - kms_provider {
-          - key_id = "abjk000vaavrul0k3583" -> null
+          - key_id = "***********" -> null
         }
 
       - master {
           - cluster_ca_certificate = <<-EOT
                 -----BEGIN CERTIFICATE-----
-                MIIC5zCCAc+gAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
-                cm5ldGVzMB4XDTI0MTIyMzE2MzM1MloXDTM0MTIyMTE2MzM1MlowFTETMBEGA1UE
-                AxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALuH
-                VUbVV2r37l/I5jF2Bir3GAEqr9aOphtMhicqz3VttyGJtISJuaMnrw4ABEQa7V68
-                T0XZkpnZ3sQ1PzZwelUNjBM3HBbq4j8KwSqZvvfKfSVCKsHh4Qw9eRSc6pjTxv1I
-                8yrVYgnIFZypbpANuqtJp2QMZPgzkJlZRvQMuR1dmJB7boOq5vp6vEs6Z90pBsRE
-                37YYDcVLlTpEEYgSsE+gpSavBRb41iO6f25BTqe/wvGw8LMOkiLwz9eFwVIkMNRf
-                8QMeJGuOblgMszccec/ueXvXkAjw0dqjZgjSPcEualOWRMaaJcJ7VY0KX6Qy4WnZ
-                HQwRgG1+/Uw9rOkARhsCAwEAAaNCMEAwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB
-                /wQFMAMBAf8wHQYDVR0OBBYEFCIIPmdSCm9e9CgyGq1AYOcgr4orMA0GCSqGSIb3
-                DQEBCwUAA4IBAQAutN6z7all+9f0hzeqtAPh8ZfvaFPy1n8OLFVbFNTjsaiO41ii
-                wESnc84LNl7RL3zKrgWVLzXOC9BPQFerhcQWyMI2stZl+0ldkwSmq5hO9qbmfd91
-                43Im2Uk/1TtLGrcX2syVVMG6Q78TDUEjeue3e4okfro0kQ2kRPodcCL+S10NUKY/
-                ta/QDIFRKeD8vUEZOld0rljs/GMoUSYz85FkIYbiCB/4PDtJrJNCzS/cmKmWBdp3
-                iu+7AjGfVeld0ys/oSqmPbuzl1rcMoqU1h2fFMUB8AhD+Qj3utirQUSUIY8T3aJv
-                1qEX+BMsqv9rd798We8RGOPxOCWJeFgFSJ40
+                ****
                 -----END CERTIFICATE-----
             EOT -> null
           - etcd_cluster_size      = 1 -> null
@@ -994,7 +979,7 @@ Terraform will perform the following actions:
             }
 
           - master_location {
-              - subnet_id = "e9bflqmd0kaokehjuqsg" -> null
+              - subnet_id = "***********" -> null
               - zone      = "ru-central1-a" -> null
             }
 
@@ -1039,7 +1024,7 @@ Terraform will perform the following actions:
 
       - allocation_policy {
           - location {
-              - subnet_id = "e9bflqmd0kaokehjuqsg" -> null
+              - subnet_id = "***********" -> null
               - zone      = "ru-central1-a" -> null
             }
         }
@@ -1074,7 +1059,7 @@ Terraform will perform the following actions:
                   - "enpjojhdhikaao3jnf1q",
                 ] -> null
               - subnet_ids         = [
-                  - "e9bflqmd0kaokehjuqsg",
+                  - "***********",
                 ] -> null
             }
 
@@ -1140,7 +1125,7 @@ Terraform will perform the following actions:
 
       - allocation_policy {
           - location {
-              - subnet_id = "e9bflqmd0kaokehjuqsg" -> null
+              - subnet_id = "***********" -> null
               - zone      = "ru-central1-a" -> null
             }
         }
@@ -1175,7 +1160,7 @@ Terraform will perform the following actions:
                   - "enpjojhdhikaao3jnf1q",
                 ] -> null
               - subnet_ids         = [
-                  - "e9bflqmd0kaokehjuqsg",
+                  - "***********",
                 ] -> null
             }
 
@@ -1211,41 +1196,41 @@ Terraform will perform the following actions:
 
   # yandex_resourcemanager_folder_iam_member.encrypterDecrypter will be destroyed
   - resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
-      - folder_id = "b1g39d4t5jfhboe9if7f" -> null
-      - id        = "b1g39d4t5jfhboe9if7f/kms.keys.encrypterDecrypter/serviceAccount:ajecq8rdki93bp5u5pcl" -> null
-      - member    = "serviceAccount:ajecq8rdki93bp5u5pcl" -> null
+      - folder_id = "***********" -> null
+      - id        = "***********/kms.keys.encrypterDecrypter/serviceAccount:***********" -> null
+      - member    = "serviceAccount:***********" -> null
       - role      = "kms.keys.encrypterDecrypter" -> null
     }
 
   # yandex_resourcemanager_folder_iam_member.images-puller will be destroyed
   - resource "yandex_resourcemanager_folder_iam_member" "images-puller" {
-      - folder_id = "b1g39d4t5jfhboe9if7f" -> null
-      - id        = "b1g39d4t5jfhboe9if7f/container-registry.images.puller/serviceAccount:ajecq8rdki93bp5u5pcl" -> null
-      - member    = "serviceAccount:ajecq8rdki93bp5u5pcl" -> null
+      - folder_id = "***********" -> null
+      - id        = "***********/container-registry.images.puller/serviceAccount:***********" -> null
+      - member    = "serviceAccount:***********" -> null
       - role      = "container-registry.images.puller" -> null
     }
 
   # yandex_resourcemanager_folder_iam_member.k8s-clusters-agent will be destroyed
   - resource "yandex_resourcemanager_folder_iam_member" "k8s-clusters-agent" {
-      - folder_id = "b1g39d4t5jfhboe9if7f" -> null
-      - id        = "b1g39d4t5jfhboe9if7f/k8s.clusters.agent/serviceAccount:ajecq8rdki93bp5u5pcl" -> null
-      - member    = "serviceAccount:ajecq8rdki93bp5u5pcl" -> null
+      - folder_id = "***********" -> null
+      - id        = "***********/k8s.clusters.agent/serviceAccount:***********" -> null
+      - member    = "serviceAccount:***********" -> null
       - role      = "k8s.clusters.agent" -> null
     }
 
   # yandex_resourcemanager_folder_iam_member.storageAdmin will be destroyed
   - resource "yandex_resourcemanager_folder_iam_member" "storageAdmin" {
-      - folder_id = "b1g39d4t5jfhboe9if7f" -> null
-      - id        = "b1g39d4t5jfhboe9if7f/storage.admin/serviceAccount:ajecq8rdki93bp5u5pcl" -> null
-      - member    = "serviceAccount:ajecq8rdki93bp5u5pcl" -> null
+      - folder_id = "***********" -> null
+      - id        = "***********/storage.admin/serviceAccount:***********" -> null
+      - member    = "serviceAccount:***********" -> null
       - role      = "storage.admin" -> null
     }
 
   # yandex_resourcemanager_folder_iam_member.vpc-public-admin will be destroyed
   - resource "yandex_resourcemanager_folder_iam_member" "vpc-public-admin" {
-      - folder_id = "b1g39d4t5jfhboe9if7f" -> null
-      - id        = "b1g39d4t5jfhboe9if7f/vpc.publicAdmin/serviceAccount:ajecq8rdki93bp5u5pcl" -> null
-      - member    = "serviceAccount:ajecq8rdki93bp5u5pcl" -> null
+      - folder_id = "***********" -> null
+      - id        = "***********/vpc.publicAdmin/serviceAccount:***********" -> null
+      - member    = "serviceAccount:***********" -> null
       - role      = "vpc.publicAdmin" -> null
     }
 
@@ -1253,13 +1238,13 @@ Terraform will perform the following actions:
   - resource "yandex_vpc_network" "otus-network-1" {
       - created_at                = "2024-12-23T16:33:37Z" -> null
       - default_security_group_id = "enp8tnc71uf0gonn27gr" -> null
-      - folder_id                 = "b1g39d4t5jfhboe9if7f" -> null
-      - id                        = "enpqqnmlk8vt0oin88dt" -> null
+      - folder_id                 = "***********" -> null
+      - id                        = "***********" -> null
       - labels                    = {} -> null
       - name                      = "otus-network-1" -> null
       - subnet_ids                = [
           - "e9b9g79qar4e8pp0pp6g",
-          - "e9bflqmd0kaokehjuqsg",
+          - "***********",
           - "e9btreekvm1ov9s4u4nv",
         ] -> null
         # (1 unchanged attribute hidden)
@@ -1269,11 +1254,11 @@ Terraform will perform the following actions:
   - resource "yandex_vpc_security_group" "k8s-cluster-traffic" {
       - created_at  = "2024-12-23T16:33:41Z" -> null
       - description = "Правила группы разрешают трафик для кластера. Примените ее к кластеру." -> null
-      - folder_id   = "b1g39d4t5jfhboe9if7f" -> null
+      - folder_id   = "***********" -> null
       - id          = "enplt15ukh31rioksmt6" -> null
       - labels      = {} -> null
       - name        = "k8s-cluster-traffic" -> null
-      - network_id  = "enpqqnmlk8vt0oin88dt" -> null
+      - network_id  = "***********" -> null
       - status      = "ACTIVE" -> null
 
       - egress {
@@ -1325,11 +1310,11 @@ Terraform will perform the following actions:
   - resource "yandex_vpc_security_group" "k8s-public-services" {
       - created_at  = "2024-12-23T16:33:39Z" -> null
       - description = "Правила группы разрешают подключение к сервисам из интернета. Примените правила только для групп узлов." -> null
-      - folder_id   = "b1g39d4t5jfhboe9if7f" -> null
+      - folder_id   = "***********" -> null
       - id          = "enpjojhdhikaao3jnf1q" -> null
       - labels      = {} -> null
       - name        = "k8s-public-services" -> null
-      - network_id  = "enpqqnmlk8vt0oin88dt" -> null
+      - network_id  = "***********" -> null
       - status      = "ACTIVE" -> null
 
       - egress {
@@ -1424,11 +1409,11 @@ Terraform will perform the following actions:
   # yandex_vpc_subnet.otus-subnet-1 will be destroyed
   - resource "yandex_vpc_subnet" "otus-subnet-1" {
       - created_at     = "2024-12-23T16:33:39Z" -> null
-      - folder_id      = "b1g39d4t5jfhboe9if7f" -> null
-      - id             = "e9bflqmd0kaokehjuqsg" -> null
+      - folder_id      = "***********" -> null
+      - id             = "***********" -> null
       - labels         = {} -> null
       - name           = "otus-subnet-1" -> null
-      - network_id     = "enpqqnmlk8vt0oin88dt" -> null
+      - network_id     = "***********" -> null
       - v4_cidr_blocks = [
           - "172.16.0.0/16",
         ] -> null
@@ -1438,7 +1423,7 @@ Terraform will perform the following actions:
     }
 
 Plan: 0 to add, 0 to change, 13 to destroy.
-yandex_resourcemanager_folder_iam_member.storageAdmin: Destroying... [id=b1g39d4t5jfhboe9if7f/storage.admin/serviceAccount:ajecq8rdki93bp5u5pcl]
+yandex_resourcemanager_folder_iam_member.storageAdmin: Destroying... [id=***********/storage.admin/serviceAccount:***********]
 yandex_kubernetes_node_group.otus-infra-ng: Destroying... [id=catb50b8ijrf1b693987]
 yandex_kubernetes_node_group.otus-worker-ng: Destroying... [id=catgm29sjgvn8pooq285]
 yandex_resourcemanager_folder_iam_member.storageAdmin: Destruction complete after 3s
@@ -1470,24 +1455,24 @@ yandex_kubernetes_cluster.otus-k8s-zonal: Still destroying... [id=catc3stlo11pk0
 yandex_kubernetes_cluster.otus-k8s-zonal: Still destroying... [id=catc3stlo11pk093as5k, 1m20s elapsed]
 yandex_kubernetes_cluster.otus-k8s-zonal: Still destroying... [id=catc3stlo11pk093as5k, 1m30s elapsed]
 yandex_kubernetes_cluster.otus-k8s-zonal: Destruction complete after 1m32s
-yandex_resourcemanager_folder_iam_member.images-puller: Destroying... [id=b1g39d4t5jfhboe9if7f/container-registry.images.puller/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Destroying... [id=b1g39d4t5jfhboe9if7f/kms.keys.encrypterDecrypter/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Destroying... [id=b1g39d4t5jfhboe9if7f/k8s.clusters.agent/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_resourcemanager_folder_iam_member.vpc-public-admin: Destroying... [id=b1g39d4t5jfhboe9if7f/vpc.publicAdmin/serviceAccount:ajecq8rdki93bp5u5pcl]
-yandex_kms_symmetric_key.kms-key: Destroying... [id=abjk000vaavrul0k3583]
+yandex_resourcemanager_folder_iam_member.images-puller: Destroying... [id=***********/container-registry.images.puller/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Destroying... [id=***********/kms.keys.encrypterDecrypter/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Destroying... [id=***********/k8s.clusters.agent/serviceAccount:***********]
+yandex_resourcemanager_folder_iam_member.vpc-public-admin: Destroying... [id=***********/vpc.publicAdmin/serviceAccount:***********]
+yandex_kms_symmetric_key.kms-key: Destroying... [id=***********]
 yandex_vpc_security_group.k8s-cluster-traffic: Destroying... [id=enplt15ukh31rioksmt6]
 yandex_vpc_security_group.k8s-public-services: Destroying... [id=enpjojhdhikaao3jnf1q]
 yandex_kms_symmetric_key.kms-key: Destruction complete after 0s
 yandex_vpc_security_group.k8s-cluster-traffic: Destruction complete after 0s
-yandex_vpc_subnet.otus-subnet-1: Destroying... [id=e9bflqmd0kaokehjuqsg]
+yandex_vpc_subnet.otus-subnet-1: Destroying... [id=***********]
 yandex_vpc_security_group.k8s-public-services: Destruction complete after 1s
 yandex_resourcemanager_folder_iam_member.k8s-clusters-agent: Destruction complete after 2s
 yandex_vpc_subnet.otus-subnet-1: Destruction complete after 4s
-yandex_vpc_network.otus-network-1: Destroying... [id=enpqqnmlk8vt0oin88dt]
+yandex_vpc_network.otus-network-1: Destroying... [id=***********]
 yandex_resourcemanager_folder_iam_member.images-puller: Destruction complete after 5s
 yandex_vpc_network.otus-network-1: Destruction complete after 2s
 yandex_resourcemanager_folder_iam_member.encrypterDecrypter: Destruction complete after 8s
-yandex_resourcemanager_folder_iam_member.vpc-public-admin: Still destroying... [id=b1g39d4t5jfhboe9if7f/vpc.publicAdmin/serviceAccount:ajecq8rdki93bp5u5pcl, 10s elapsed]
+yandex_resourcemanager_folder_iam_member.vpc-public-admin: Still destroying... [id=***********/vpc.publicAdmin/serviceAccount:***********, 10s elapsed]
 yandex_resourcemanager_folder_iam_member.vpc-public-admin: Destruction complete after 10s
 ```
 </details>
