@@ -2,13 +2,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: homework-admin
-  namespace: homework
+  namespace: homeworkhelm
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: homework-monitoring
-  namespace: homework
+  namespace: homeworkhelm
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -22,7 +22,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: homework
+  namespace: homeworkhelm
   name: admins-role
 rules:
 - apiGroups: ["*"]
@@ -36,7 +36,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: homework-monitoring
-  namespace: homework
+  namespace: homeworkhelm
 roleRef:
   kind: ClusterRole
   name: metrics-role
@@ -46,11 +46,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: namespace-admin
-  namespace: homework
+  namespace: homeworkhelm
 subjects:
 - kind: ServiceAccount
   name: homework-admin
-  namespace: homework
+  namespace: homeworkhelm
 roleRef:
   kind: Role
   name: admins-role
