@@ -8,4 +8,5 @@
 6. [Шаблонизация манифестов приложения, использование Helm. Установка community Helm charts](./kubernetes-templating/README.md)  
 7. [Custom Resource Definitions. Operators](./kubernetes-operators/README.md) 
 8. [Мониторинг приложения в кластере](./kubernetes-monitoring/README.md)  
-9. [Сервисы централизованного логирования для Kubernetes](./kubernetes-logging/README.md)        
+9. [Сервисы централизованного логирования для Kubernetes](./kubernetes-logging/README.md)       
+10. [GitOps и инструменты поставки](./kubernetes-gitops/README.md)   
