@@ -11,3 +11,4 @@
 9. [Сервисы централизованного логирования для Kubernetes](./kubernetes-logging/README.md)       
 10. [GitOps и инструменты поставки](./kubernetes-gitops/README.md)  
 11. [Хранилище секретов для приложения. Vault](./kubernetes-vault/README.md)  
+12. [Развертывание системы хранения данных](./kubernetes-csi/README.md)  
