@@ -12,3 +12,4 @@
 10. [GitOps и инструменты поставки](./kubernetes-gitops/README.md)  
 11. [Хранилище секретов для приложения. Vault](./kubernetes-vault/README.md)  
 12. [Развертывание системы хранения данных](./kubernetes-csi/README.md)  
+13. [Диагностика и отладка в Kubernetes](./kubernetes-debug/README.md)  
