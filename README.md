@@ -14,3 +14,4 @@
 12. [Развертывание системы хранения данных](./kubernetes-csi/README.md)  
 13. [Диагностика и отладка в Kubernetes](./kubernetes-debug/README.md)  
 14. [Подходы к развертыванию и обновлению production-grade кластера](./kubernetes-prod/README.md) 
+15. [Подготовка MVP инфраструктурной платформы для приложения](./kubernetes-mvp/README.md) 

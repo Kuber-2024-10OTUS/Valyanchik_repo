@@ -1,0 +1,8 @@
+global:
+  nodeSelector:
+    node-role.kubernetes.io/cicd: "cicd"
+  tolerations:
+  - key: "node-role.kubernetes.io/cicd"
+    operator: "Equal"
+    value: "cicd"
+    effect: "NoSchedule"
