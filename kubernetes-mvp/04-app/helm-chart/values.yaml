@@ -43,7 +43,7 @@ authorizationPolicies:
 
 opentelemetryCollector:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -66,7 +66,7 @@ securityContext:
 
 adService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -82,7 +82,7 @@ adService:
 
 cartService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -98,7 +98,7 @@ cartService:
 
 checkoutService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -114,7 +114,7 @@ checkoutService:
 
 currencyService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -130,7 +130,7 @@ currencyService:
 
 emailService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -146,7 +146,7 @@ emailService:
 
 frontend:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -176,7 +176,7 @@ frontend:
 
 loadGenerator:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -193,7 +193,7 @@ loadGenerator:
 
 paymentService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -209,7 +209,7 @@ paymentService:
 
 productCatalogService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -227,7 +227,7 @@ productCatalogService:
 
 recommendationService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -243,7 +243,7 @@ recommendationService:
 
 shippingService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -259,7 +259,7 @@ shippingService:
 
 cartDatabase:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -282,7 +282,7 @@ cartDatabase:
 # https://github.com/GoogleCloudPlatform/microservices-demo/tree/main/kustomize/components/shopping-assistant
 shoppingAssistantService:
   tolerations:
-  - key: "node-role.kubernetes.io/worker"
+  - key: "node-role"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
