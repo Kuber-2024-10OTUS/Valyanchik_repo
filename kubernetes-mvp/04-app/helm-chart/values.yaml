@@ -42,6 +42,8 @@ authorizationPolicies:
   create: false
 
 opentelemetryCollector:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -65,6 +67,8 @@ securityContext:
   enable: true
 
 adService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -81,6 +85,8 @@ adService:
       memory: 300Mi
 
 cartService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -97,6 +103,8 @@ cartService:
       memory: 128Mi
 
 checkoutService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -113,6 +121,8 @@ checkoutService:
       memory: 128Mi
 
 currencyService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -129,6 +139,8 @@ currencyService:
       memory: 128Mi
 
 emailService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -145,6 +157,8 @@ emailService:
       memory: 128Mi
 
 frontend:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -175,6 +189,8 @@ frontend:
       memory: 128Mi
 
 loadGenerator:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -192,6 +208,8 @@ loadGenerator:
       memory: 512Mi
 
 paymentService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -208,6 +226,8 @@ paymentService:
       memory: 128Mi
 
 productCatalogService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -226,6 +246,8 @@ productCatalogService:
       memory: 128Mi
 
 recommendationService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -242,6 +264,8 @@ recommendationService:
       memory: 450Mi
 
 shippingService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -258,6 +282,8 @@ shippingService:
       memory: 128Mi
 
 cartDatabase:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
@@ -281,6 +307,8 @@ cartDatabase:
 # @TODO: This service is not currently available in Helm.
 # https://github.com/GoogleCloudPlatform/microservices-demo/tree/main/kustomize/components/shopping-assistant
 shoppingAssistantService:
+  nodeSelector:
+    node-role: "worker"
   tolerations:
   - key: "node-role"
     operator: "Equal"
