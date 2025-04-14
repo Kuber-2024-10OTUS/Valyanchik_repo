@@ -42,10 +42,8 @@ authorizationPolicies:
   create: false
 
 opentelemetryCollector:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -67,10 +65,8 @@ securityContext:
   enable: true
 
 adService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -85,10 +81,8 @@ adService:
       memory: 300Mi
 
 cartService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -103,10 +97,8 @@ cartService:
       memory: 128Mi
 
 checkoutService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -121,10 +113,8 @@ checkoutService:
       memory: 128Mi
 
 currencyService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -139,10 +129,8 @@ currencyService:
       memory: 128Mi
 
 emailService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -157,10 +145,8 @@ emailService:
       memory: 128Mi
 
 frontend:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -189,10 +175,8 @@ frontend:
       memory: 128Mi
 
 loadGenerator:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -208,10 +192,8 @@ loadGenerator:
       memory: 512Mi
 
 paymentService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -226,10 +208,8 @@ paymentService:
       memory: 128Mi
 
 productCatalogService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -246,10 +226,8 @@ productCatalogService:
       memory: 128Mi
 
 recommendationService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -264,10 +242,8 @@ recommendationService:
       memory: 450Mi
 
 shippingService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -282,10 +258,8 @@ shippingService:
       memory: 128Mi
 
 cartDatabase:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"
@@ -307,10 +281,8 @@ cartDatabase:
 # @TODO: This service is not currently available in Helm.
 # https://github.com/GoogleCloudPlatform/microservices-demo/tree/main/kustomize/components/shopping-assistant
 shoppingAssistantService:
-  nodeSelector:
-    node-role: "worker"
   tolerations:
-  - key: "node-role"
+  - key: "node-role.kubernetes.io/worker"
     operator: "Equal"
     value: "worker"
     effect: "NoSchedule"

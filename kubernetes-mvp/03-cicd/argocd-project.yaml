@@ -6,11 +6,11 @@ metadata:
 spec:
   description: otus-mvp-project
   sourceRepos:
-  - 'https://github.com/Kuber-2024-10OTUS/Valyanchik_repo.git'
+  - 'https://github.com/Valyanchik/kubernetes-mvp.git'
   destinations:
-  - namespace: 'app'
+  - namespace: '*'
     server: https://kubernetes.default.svc
-    name: kubernetes-admin@cluster.local
+    name: otus-k8s-zonal  ##чувствительный параметр
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
